@@ -1,0 +1,45 @@
+name: ADFM Telegram Reminder
+
+on:
+  schedule:
+    # Esegue lo script ogni giorno alle 05:00 UTC.
+    # Alle Canarie: 06:00 (ora legale) / 05:00 (ora solare).
+    # In Italia: 07:00 (ora legale) / 06:00 (ora solare).
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+    # Consente di avviare il bot manualmente in qualsiasi momento da GitHub.com
+
+jobs:
+  run-reminder:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Scarica il codice dal repository
+        uses: actions/checkout@v4
+
+      - name: Configura Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Installa le dipendenze
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ricostruisci i file di configurazione in sicurezza
+        run: |
+          # Crea il file .env partendo dai Secrets di GitHub
+          echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" > .env
+          echo "TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}" >> .env
+          echo "CALENDAR_ID=${{ secrets.CALENDAR_ID }}" >> .env
+          echo "GOOGLE_CREDENTIALS_FILE=credentials.json" >> .env
+          echo "GOOGLE_TOKEN_FILE=token.json" >> .env
+          
+          # Ricrea i file JSON di autenticazione a partire dai Secrets
+          echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > credentials.json
+          echo '${{ secrets.GOOGLE_TOKEN_JSON }}' > token.json
+
+      - name: Esegui il bot dei promemoria
+        run: python main.py

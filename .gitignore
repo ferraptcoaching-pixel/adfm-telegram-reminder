@@ -1,0 +1,21 @@
+# Ambienti virtuali
+venv/
+ENV/
+env/
+
+# Cache di Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# File sensibili (credenziali e configurazioni locali)
+.env
+credentials.json
+token.json
+
+# File di log e temporanei
+*.log
+.DS_Store
+.idea/
+.vscode/
