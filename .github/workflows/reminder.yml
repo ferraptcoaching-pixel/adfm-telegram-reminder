@@ -2,10 +2,10 @@ name: ADFM Telegram Reminder
 
 on:
   schedule:
-    # Esegue lo script ogni giorno alle 05:00 UTC.
-    # Alle Canarie: 06:00 (ora legale) / 05:00 (ora solare).
-    # In Italia: 07:00 (ora legale) / 06:00 (ora solare).
-    - cron: '0 5 * * *'
+    # Esegue lo script ogni giorno alle 05:12 UTC (minuto non tondo per evitare ritardi/salti di GitHub).
+    # Alle Canarie: 06:12 (ora legale) / 05:12 (ora solare).
+    # In Italia: 07:12 (ora legale) / 06:12 (ora solare).
+    - cron: '12 5 * * *'
   workflow_dispatch:
     # Consente di avviare il bot manualmente in qualsiasi momento da GitHub.com
 
