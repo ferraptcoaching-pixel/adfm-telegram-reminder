@@ -106,7 +106,8 @@ def is_valid_event_type(summary):
         'consulenza conoscitiva',
         'analisi chinesiologica',
         'consulenza con il dott. davide ferrara',
-        'call di recup'
+        'call di recup',
+        'consulenza chinesiologica'
     ]
     
     for keyword in valid_keywords:
@@ -129,10 +130,12 @@ def clean_client_name(summary):
         'Consulenza conoscitiva ADFM ',
         'Consulenza con il dott. Davide Ferrara ',
         'Call di recup percorso ADFM ',
+        'Consulenza chinesiologica ADFM ',
         'Analisi chinesiologica ',
         'Consulenza conoscitiva ',
         'Consulenza con il dott. Davide Ferrara',
-        'Call di recup '
+        'Call di recup ',
+        'Consulenza chinesiologica '
     ]
     
     for rep in replacements:
