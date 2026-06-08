@@ -107,7 +107,9 @@ def is_valid_event_type(summary):
         'analisi chinesiologica',
         'consulenza con il dott. davide ferrara',
         'call di recup',
-        'consulenza chinesiologica'
+        'consulenza chinesiologica',
+        'call gratuita',
+        'pancetta reset'
     ]
     
     for keyword in valid_keywords:
@@ -121,7 +123,12 @@ def clean_client_name(summary):
     if not summary:
         return ""
     
-    # Rimuove le parentesi tonde ed eventualmente quadre
+    # 1. Cerca il testo contenuto tra parentesi tonde alla fine del titolo (es: "Analisi (Nome Cliente)")
+    match = re.search(r"\(([^)]+)\)\s*$", summary)
+    if match:
+        return match.group(1).strip()
+    
+    # 2. Se non ci sono parentesi alla fine, applica la rimozione convenzionale dei prefissi noti
     cleaned = summary.replace('(', '').replace(')', '').replace('[', '').replace(']', '')
     
     # Prefissi da rimuovere in modo case-insensitive
@@ -135,12 +142,15 @@ def clean_client_name(summary):
         'Consulenza conoscitiva ',
         'Consulenza con il dott. Davide Ferrara',
         'Call di recup ',
-        'Consulenza chinesiologica '
+        'Consulenza chinesiologica ',
+        'Call gratuita con il Dott. Davide Ferrara ',
+        'PANCETTA RESET '
     ]
     
     for rep in replacements:
         cleaned = re.sub(re.escape(rep), '', cleaned, flags=re.IGNORECASE)
         
+    cleaned = re.sub(r"^[-\s]+|[-\s]+$", "", cleaned)
     return cleaned.strip()
 
 def get_first_name(summary):
